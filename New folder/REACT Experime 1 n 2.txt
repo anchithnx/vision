@@ -1,0 +1,106 @@
+REACT BCSL657B
+Experiment 1
+Use create-react-app to set up a new project. Edit the App.js file to include a stateful
+component with useState. Add an input field and a <h1> element that displays text based on
+the input. Dynamically update the content as the user types.
+
+App.js
+import React, { useState } from 'react';
+import './App.css';
+function App() {
+const [text, setText] = useState(''); // Declare a state variable 'text' and a function 'setText'
+to update it
+const handleChange = (event) => {
+setText(event.target.value);
+}
+return (
+<div className="container" >
+<h1> Hello VCET</h1>
+<input
+type="text"
+onChange={handleChange} // Update state on input change
+placeholder="Type something..."
+/>
+<h1>{text || "Type something..."}</h1>
+</div>
+);
+}
+export default App;
+App.CSS
+.container {
+text-align: center;
+margin-top: 50px;
+}
+
+Experiment 2
+Develop a React application that demonstrates the use of props to pass data from a parent
+component to child components. The application should include the parent component named
+App that serves as the central container for the application. Create two separate child
+components, Header: Displays the application title or heading. Footer: Displays additional
+information, such as copyright details or a tagline. Pass data (e.g., title, tagline, or copyright
+information) from the App component to the Header and Footer components using props.
+Ensure that the content displayed in the Header and Footer components is dynamically
+updated based on the data received from the parent component.
+
+Header.js (in Src)
+import React from 'react';
+function Header(props) {
+return (
+<header>
+<h1>{props.title}</h1>
+</header>
+);
+}
+export default Header;
+Footer.js (in Src)
+import React from 'react';
+function Footer(props) {
+return (
+<footer>
+<p>{props.tagline}</p>
+<small>{props.copyright}</small>
+</footer>
+);
+}
+export default Footer;
+App.js
+import React from 'react';
+
+import './App.css';
+// Import the Header and Footer components
+import Header from './Header';
+import Footer from './Footer';
+function App() {
+// Data to be passed to child components
+const title = "Welcome to React World";
+const tagline = "Code. Create. Innovate.";
+const copyright = "\u00A9 2026 Creative Coders Ltd.";
+return (
+<div className="App">
+{/* Pass data to Header and Footer components using props */}
+<Header title={title} />
+<Footer tagline={tagline} copyright={copyright} />
+</div>
+);
+}
+export default App;
+
+App.css
+.App {
+text-align: center;
+}
+header {
+background-color: slategray;
+color: white;
+padding: 20px;
+}
+footer {
+background-color: slategray;
+color: white;
+padding: 10px;
+position: fixed;
+width: 100%;
+bottom: 0;
+}
+
+

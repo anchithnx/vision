@@ -1,0 +1,128 @@
+EXPERIMENT NO:4
+Title: Develop a To-Do List Application using React functional components that
+demonstrates the use of the useState hook for state management. Create a functional
+component named ToDoFunction to manage and display the todo list. Maintain a list of
+tasks using state. Provide an input field for users to add new tasks. Dynamically render
+the list of tasks below the input field. Ensure each task is displayed in a user-friendly
+manner. Allow users to delete tasks from the list. Mark tasks as completed or pending,
+and visually differentiate them.
+App.js
+import React, { useState } from 'react';
+import './App.css';
+function ToDoFunction() {
+// State to hold the list of tasks
+const [tasks, setTasks] = useState([ ]);
+// State to hold the current input value for adding new tasks
+const [newTask, setNewTask] = useState('');
+const handleChange = (event) => setNewTask(event.target.value);
+const addTask = () =>{
+if (newTask.trim() === '') return;
+const task = {
+id: Date.now(),
+text: newTask,
+completed: false,
+}
+setTasks([...tasks, task]); // Add the new task to the list
+setNewTask(''); // Clear the input field
+}
+const toggleCompletion = (taskId) =>
+setTasks(
+tasks.map( task => task.id === taskId ? { ...task, completed: !task.completed } : task )
+)
+const deleteTask = (taskId) =>
+setTasks(tasks.filter( task => task.id !== taskId))
+return (
+<div className="todo-container">
+<h1>To-Do List</h1>
+<div>
+<input
+type="text"
+value={newTask}
+onChange={handleChange}
+placeholder="Add a new task"
+/>
+
+<button onClick={addTask}>Add Task</button>
+</div>
+<ul>
+{
+tasks.map( task => (
+<li >
+<span
+style={{ textDecoration: task.completed ? 'line-through' : 'none'}}
+onClick={() => toggleCompletion(task.id)}
+>
+{task.text}
+</span>
+<button onClick={() => deleteTask(task.id)}> Delete </button>
+</li>
+))
+}
+</ul>
+</div>
+)
+}
+function App() {
+return (
+<div className="App">
+<ToDoFunction />
+</div>
+);
+}
+export default App;
+
+App.css
+.todo-container {
+text-align: center;
+padding: 20px;
+}
+input {
+padding: 10px;
+margin-right: 10px;
+}
+
+button {
+padding: 10px;
+cursor: pointer;
+}
+li {
+display: flex;
+justify-content: space-between;
+margin: 10px 0;
+}
+
+Note:
+trim() is a JavaScript string method. It removes extra spaces from the beginning and end of a
+string.
+= = = is called strict equality operator. It checks: Value and datatype
+Loose equality (==)
+5 == "5" // true
+Because, it converts string to number.
+5 === "5" // false
+Because: 5 → number, "5" → string, Different types → false
+Date.now() : JavaScript built-in method that returns: The current time in milliseconds.
+const [tasks, setTasks] = useState([ ]); here, tasks is a state variable, an array and Stores all
+task objects and empty array [] is the initial value.
+[...tasks, task] Here, ... is called the Spread Operator, add the new task object, at the end
+of tasks array
+map() is a JavaScript array method.It loops through each element and Creates a new updated
+tasks array, returns new array.
+? : This is Ternary Operator.
+completed: !task.completed This flips the boolean: true → false and false → true
+tasks.filter( task => task.id !== taskId): here, filter() is a JavaScript array method and
+It loops through the array
+It checks a condition
+It returns a new array
+It keeps only elements where condition is TRUE
+<span
+style={{ textDecoration: task.completed ? 'line-through' : 'none'}}
+onClick={() => toggleCompletion(task.id)}
+>
+Here, style → shows strike-through if task is completed
+onClick → This attaches a click event.
+When we click the text:
+ It calls toggleCompletion
+ Passes task.id
+ That function flips the completed value
+
+

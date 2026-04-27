@@ -1,0 +1,80 @@
+React Expt:10
+Design a React application featuring a class-based component that demonstrates the use of
+lifecycle methods to interact with an external API. The component should fetch and update
+data dynamically based on user interactions or state changes. Use the componentDidMount
+lifecycle method to fetch data from an API when the component is initially rendered. Display
+the fetched data in a structured format, such as a table or list. Use the componentDidUpdate
+lifecycle method to detect changes in the component's state or props. Trigger additional API
+calls to update the displayed data based on user input or actions (e.g., filtering, searching, or
+pagination). Implement error handling to manage issues such as failed API requests or empty
+data responses. Display appropriate error messages to the user when necessary. Allow users to
+perform actions like filtering, searching, or refreshing the data. Reflect changes in the displayed
+data based on these interactions.
+
+App.js
+import React from 'react';
+import Users from './Users';
+function App() {
+return (
+<div>
+<Users />
+</div>
+);
+}
+export default App;
+Users.js
+import React, { Component } from 'react';
+class Users extends Component {
+state = {
+users: [],
+search: ''
+};
+// Runs when component loads
+componentDidMount() {
+this.fetchUsers();
+}
+// Runs when search changes
+componentDidUpdate(prevState) {
+if (prevState.search !== this.state.search) {
+this.fetchUsers();
+
+}
+}
+// API Call
+fetchUsers = () => {
+fetch('https://jsonplaceholder.typicode.com/users')
+.then(res => res.json())
+.then(data => {
+const filtered = data.filter(user => user.name.includes(this.state.search)
+);
+this.setState({ users: filtered });
+});
+}
+// Search input
+handleChange = (e) => {
+this.setState({ search: e.target.value });
+}
+render() {
+return (
+<div>
+<h2>User List</h2>
+<input
+type="text"
+placeholder="Search user"
+onChange={this.handleChange}
+/>
+<ul>
+{this.state.users.map(user => (
+<li >
+{user.name}
+</li>
+))}
+</ul>
+</div>
+)
+}
+}
+
+export default Users;
+
+
